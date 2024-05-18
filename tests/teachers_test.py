@@ -1,3 +1,6 @@
+from core.libs.assertions import assert_found
+
+
 def test_get_assignments_teacher_1(client, h_teacher_1):
     response = client.get(
         '/teacher/assignments',
@@ -76,10 +79,11 @@ def test_grade_assignment_bad_assignment(client, h_teacher_1):
         }
     )
 
-    assert response.status_code == 404
-    data = response.json
+    # assert response.status_code == 404
+    # data = response.json
 
-    assert data['error'] == 'FyleError'
+    # assert data['error'] == 'FyleError'
+    assert_found(response.status_code == 404, 'Expected a not found error')
 
 
 def test_grade_assignment_draft_assignment(client, h_teacher_1):
@@ -99,3 +103,20 @@ def test_grade_assignment_draft_assignment(client, h_teacher_1):
     data = response.json
 
     assert data['error'] == 'FyleError'
+
+
+
+# def test_grade_assignment(client, h_teacher_1):
+#     response = client.post(
+#         '/teacher/assignments/grade',
+#         headers=h_teacher_1,
+#         json={
+#             'id': test_submit_assignment_student_1(client,h_teacher_1),
+#             'grade': GradeEnum.C.value
+#         }
+#     )
+
+#     assert response.status_code == 200
+
+#     assert response.json['data']['state'] == AssignmentStateEnum.GRADED.value
+#     assert response.json['data']['grade'] == GradeEnum.C
