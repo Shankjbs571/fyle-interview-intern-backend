@@ -1,4 +1,5 @@
 from core.libs.assertions import assert_found
+from core.models.teachers import Teacher
 
 
 def test_get_assignments_teacher_1(client, h_teacher_1):
@@ -120,3 +121,7 @@ def test_grade_assignment_draft_assignment(client, h_teacher_1):
 
 #     assert response.json['data']['state'] == AssignmentStateEnum.GRADED.value
 #     assert response.json['data']['grade'] == GradeEnum.C
+
+def test_teacher_repr(client,h_teacher_1):
+    teacher = Teacher.query.first()  # Assuming this retrieves a Student instance
+    assert repr(teacher) == '<Teacher {}>'.format(teacher.id)
